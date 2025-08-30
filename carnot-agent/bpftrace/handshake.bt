@@ -1,0 +1,1 @@
+uprobe:/lib/x86_64-linux-gnu/libssl.so.3:SSL_do_handshake { printf("{\"source\":\"runtime.ebpf\",\"event\":\"tls.handshake\",\"pid\":%d,\"proc\":\"%s\"}\n", pid, comm); }

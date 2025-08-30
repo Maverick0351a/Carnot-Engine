@@ -1,0 +1,11 @@
+version: '3.8'
+services:
+  oqs:
+    image: openquantumsafe/oqs-ossl3:latest
+    command: >
+      bash -lc "
+      openssl version &&
+      (openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -nodes -subj '/CN=localhost' -days 1) &&
+      openssl s_server -www -accept 4433 -cert cert.pem -key key.pem -tls1_3
+      "
+    ports: ["4433:4433"]

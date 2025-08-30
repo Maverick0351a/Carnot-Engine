@@ -1,0 +1,6 @@
+Platform,Crypto Library,PQC/Hybrid Support,Path,Notes
+Nginx,OpenSSL 3,Yes (OQS provider),"Build OpenSSL3+OQS, set ssl_groups",Edge termination
+HAProxy,OpenSSL 3,Yes (OQS provider),Build OpenSSL3+OQS,Fast & flexible
+Envoy/Istio,BoringSSL,Partial/Experimental,Native BoringSSL only,Cannot load providers
+Apache httpd,OpenSSL 3,Yes (OQS provider),mod_ssl with OpenSSL3+OQS,Legacy friendly
+AWS ALB/NLB,AWS-LC,Managed/Partial,AWS policies,Roadmap-dependent

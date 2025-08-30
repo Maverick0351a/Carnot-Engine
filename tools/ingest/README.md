@@ -1,0 +1,2 @@
+- ETW: `etw_jsonl_to_bom.py input.jsonl out.json`
+- JFR: `jfr_to_bom.py jfr_print.txt out.json`

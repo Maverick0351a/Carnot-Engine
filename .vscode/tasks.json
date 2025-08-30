@@ -1,0 +1,15 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Scan demo",
+      "type": "shell",
+      "command": "cd carnot-cli && pip install -e . && carnot examples/demo-python -o cryptobom.json"
+    },
+    {
+      "label": "Attest demo",
+      "type": "shell",
+      "command": "cd carnot-attest && pip install -e . && carnot-attest --project Demo --bom ../carnot-cli/cryptobom.json --out ./out"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "carnot-cli"
+version = "0.2.1"
+description = "Carnot Engine CryptoBOM v2.1 static scanner"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name="Carnot Engine"}]
+
+[project.scripts]
+carnot = "carnot.__main__:main"
+
+[tool.setuptools]
+packages = ["carnot"]

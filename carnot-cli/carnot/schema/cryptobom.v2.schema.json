@@ -1,0 +1,167 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Carnot CryptoBOM v2.1",
+  "type": "object",
+  "required": [
+    "schema",
+    "summary",
+    "observations"
+  ],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "const": "carnot.v2.1.cryptobom"
+    },
+    "run_id": {
+      "type": "string"
+    },
+    "summary": {
+      "type": "object",
+      "properties": {
+        "assets": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "observations": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "source"
+        ],
+        "properties": {
+          "source": {
+            "type": "string",
+            "enum": [
+              "static.sast",
+              "runtime.ebpf",
+              "network.zeek",
+              "network.quic",
+              "runtime.etw",
+              "runtime.jfr",
+              "pki.kms",
+              "ca.inventory"
+            ]
+          },
+          "source_type": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "asset_id": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "owner": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "data_class": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "secrecy_lifetime_years": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "exposure": {
+            "type": [
+              "string",
+              "null"
+            ],
+            "enum": [
+              "external",
+              "partner",
+              "internal",
+              null
+            ]
+          },
+          "path": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "line": {
+            "type": [
+              "integer",
+              "null"
+            ]
+          },
+          "finding": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sni": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "tls_version": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "cipher": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "groups_offered": {
+            "type": [
+              "array",
+              "null"
+            ],
+            "items": {
+              "type": "string"
+            }
+          },
+          "group_selected": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "sigalg": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "time": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "confidence": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        }
+      }
+    }
+  }
+}

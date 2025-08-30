@@ -1,0 +1,49 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+*.egg
+build/
+dist/
+.pytest_cache/
+.mypy_cache/
+.venv/
+venv/
+.coverage
+coverage.xml
+
+# Go
+bin/
+*.test
+*.out
+
+# Node / frontend
+node_modules/
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+
+# eBPF build artifacts
+*.o
+
+# Runtime outputs
+runtime.jsonl
+runtime.bom.json
+merged*.json
+attest-out/
+*.md~
+
+# Cloud deployments
+.env
+
+# API temp dirs
+api/.venv/
+
+# Logs
+*.log

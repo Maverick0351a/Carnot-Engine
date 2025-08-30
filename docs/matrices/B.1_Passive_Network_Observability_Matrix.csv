@@ -1,0 +1,9 @@
+Feature,TLS 1.2 (TCP),TLS 1.3 (TCP),QUIC,QUIC + ECH
+Destination IP/Port,Visible,Visible,Visible,Visible
+SNI,Visible,Visible,Visible,Hidden (Inner)
+ALPN,Visible,Visible,Visible,Hidden (Inner)
+Client Offered Ciphers/Groups,Visible,Visible,Visible,Hidden (Inner)
+Server Certificate,Visible (Plaintext),Encrypted,Encrypted,Encrypted (Outer only)
+Negotiated Cipher/Group,Visible,Visible,Visible,Hidden
+Conn Metadata,Visible (TCP),Visible (TCP),Hidden,Hidden
+Wireshark ECH Filter,tls.handshake.extension.type == 65037,,,

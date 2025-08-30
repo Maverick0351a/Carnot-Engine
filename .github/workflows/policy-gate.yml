@@ -1,0 +1,86 @@
+name: Policy Gate
+
+on:
+  pull_request:
+    inputs:
+      mode:
+        description: "Gate mode (warn|enforce)"
+        required: false
+        default: "warn"
+
+jobs:
+  opa-gate:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+      - name: Determine mode
+        id: mode
+        run: |
+          MODE="${{ github.event.inputs.mode }}"
+          if [ -z "$MODE" ]; then MODE=warn; fi
+          echo "mode=$MODE" >> $GITHUB_OUTPUT
+      - name: Check for merged.json
+        id: merged
+        run: |
+          if [ -f merged.json ]; then echo "present=true" >> $GITHUB_OUTPUT; else echo "present=false" >> $GITHUB_OUTPUT; fi
+      - name: Install OPA
+        if: steps.merged.outputs.present == 'true'
+        run: |
+          curl -L -o opa https://openpolicyagent.org/downloads/latest/opa_linux_amd64_static
+          chmod +x opa
+          sudo mv opa /usr/local/bin/opa
+      - name: Run OPA
+        if: steps.merged.outputs.present == 'true'
+        id: opa
+        run: |
+          set -e
+          echo '{"results":[]}' > opa_result.json
+          opa eval -f json -i merged.json -d policies 'data.carnot.pqc_migration.deny' > raw.json || true
+          # Transform raw results list into structured JSON: violations[]
+          python - <<'PY'
+import json, sys, pathlib
+raw=json.load(open('raw.json'))
+violations=[]
+for r in raw.get('result', []):
+  for expr in r.get('expressions', []):
+    val = expr.get('value')
+    if isinstance(val, list):
+      for v in val: violations.append(v)
+    elif val: violations.append(val)
+out={"violations":violations, "count": len(violations)}
+json.dump(out, open('opa_result.json','w'))
+print(f"Found {len(violations)} violations")
+PY
+          echo "violations=$(jq '.count' opa_result.json)" >> $GITHUB_OUTPUT
+      - name: Upload OPA JSON artifact
+        if: steps.merged.outputs.present == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: opa_result
+          path: opa_result.json
+      - name: PR Comment (present)
+        if: steps.merged.outputs.present == 'true'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: opa-gate
+          message: |
+            ### OPA Policy Gate (${{ steps.mode.outputs.mode }})
+            Violations: `${{ steps.opa.outputs.violations }}`
+            ${{ steps.opa.outputs.violations != '0' && 'See remediation guide below.' || 'No violations detected.' }}
+            
+            $(jq -r '.violations[] | "- ❌ " + . + "  (Remediation: see docs/POLICY_GUIDE.md)"' opa_result.json || echo '')
+      - name: PR Comment (absent)
+        if: steps.merged.outputs.present == 'false'
+        uses: marocchino/sticky-pull-request-comment@v2
+        with:
+          header: opa-gate
+          message: |
+            merged.json not found in this PR. Skipping policy evaluation.
+      - name: Fail if enforce and violations
+        if: steps.merged.outputs.present == 'true' && steps.mode.outputs.mode == 'enforce'
+        run: |
+          V=$(jq '.count' opa_result.json)
+          if [ "$V" != "0" ]; then echo "Violations present in enforce mode"; exit 1; fi

@@ -1,0 +1,1 @@
+uprobe:/lib/x86_64-linux-gnu/libssl.so.3:SSL_set_tlsext_host_name { printf("{\"source\":\"runtime.ebpf\",\"event\":\"tls.sni\",\"pid\":%d,\"proc\":\"%s\",\"sni\":\"%s\"}\n", pid, comm, str(arg1)); }

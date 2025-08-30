@@ -1,0 +1,7 @@
+Standard/Mandate,Section,Summary,Attestation Field(s),Verification
+OMB M-23-02,3(a)(i),Inventory cryptographic systems,"CryptoBOM.asset_id, algorithm",Discovery
+OMB M-23-02,3(a)(ii),Prioritize by HNDL,"risk.priority, secrecy_lifetime_years",Risk Engine
+FIPS 203,ML-KEM use,ML-KEM algorithms present,algorithm=MLKEM*,Runtime/SAST
+FIPS 204,ML-DSA use,ML-DSA for signatures,algorithm=MLDSA*,PKI/SAST
+FIPS 205,SLH-DSA use,SLH-DSA for signatures,algorithm=SLHDSA*,PKI/SAST
+CISA ACDI,Automation,Automated discovery methods,attestation.provenance,Platform

@@ -1,0 +1,18 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "carnot-merge"
+version = "0.1.1"
+description = "Merge CryptoBOM v2.1 observation sources"
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name="Carnot Engine"}]
+
+[project.scripts]
+carnot-merge = "carnot_merge.__main__:main"
+
+[tool.setuptools]
+packages = ["carnot_merge"]

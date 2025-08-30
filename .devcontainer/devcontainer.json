@@ -1,0 +1,17 @@
+{
+  "name": "Carnot Dev",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "charliermarsh.ruff",
+        "github.copilot",
+        "github.vscode-github-actions"
+      ]
+    }
+  },
+  "postCreateCommand": "pip install -e ./carnot-cli && pip install -e ./carnot-merge && pip install -e ./carnot-attest"
+}
